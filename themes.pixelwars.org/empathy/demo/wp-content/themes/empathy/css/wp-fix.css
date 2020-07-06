@@ -1,0 +1,67 @@
+/* ============================================================================= */
+
+
+.wp-caption {
+    width: auto !important;
+}
+
+
+.navigation > div + div {
+	float: right;
+}
+
+
+.logged-in .comment-form .form-submit {
+	margin-top: 0px;
+}
+
+
+.blog-no-posts .search-form label,
+.search-no-results .search-form label {
+	display: inline-block;
+}
+
+
+.post-password-form label {
+	display: inline-block;
+	text-align: left;
+}
+
+
+.chat-text > p + p {
+	display: none;
+}
+
+
+.admin-bar .header-wrap {
+    top: 32px;
+}
+
+
+.nav-menu li:hover {
+	cursor: pointer;
+}
+
+
+.process p,
+.fun-fact p,
+.service p:first-of-type  {
+	margin: 0;
+}
+
+
+
+body .mejs-container,
+body .mejs-container .mejs-controls {
+    background: #1C262B;
+}
+
+
+body .mejs-controls .mejs-time-rail .mejs-time-current {
+	background: #8ACB82;
+}
+
+.portfolio-nav span { display: inline-block; }
+
+
+/* ============================================================================= */
