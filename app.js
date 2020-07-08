@@ -9,7 +9,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) { //handles get request
-  res.render('home');
+  res.render('index');
+})
+
+app.get('/ml', function (req, res) { //handles get request
+  res.render('ml');
 })
 
 app.listen(PORT, function () {
