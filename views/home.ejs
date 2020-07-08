@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>DeskAI</title>
+
+
+  <style>
+    canvas {
+      background-color: white;
+      display: none;
+      visibility: hidden
+    }
+    video {
+      display: none;
+      visibility: hidden;
+    }
+  </style>
+
+
+
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <script src="js/handtrack.min.js"></script>
+  <script src="js/opencv.js" type="text/javascript"></script>
+  <script src="https://docs.opencv.org/master/utils.js"></script>
+  <script defer src="js/ml.js"></script>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <section id="faq" class="faq section-bg">
+      <div class="container" style = "text-align: center">
+
+        <input id = "tryitout" class = "myButton" type = "button" value = "Loading Models..." onclick = "startVideo()">
+
+        <video id="video" width="400" height="200"></video>
+        <canvas id = "canvas" width = "400" height = "200"></canvas>
+        <br>
+        <p id = "times">So far, you have touched your face 0 times</p>
+        <br>
+        <p id = "lasttime">Last time, you touched your face 0 times</p>
+        <br>
+        <br>
+        <input id = "pause" class = "myButton" type = "button" value = "Pause Video" onclick = "pauseVideo()">
+        <br><br>
+        <input id = "notify" class = "myButton" type = "button" value = "Don't Send Notifications" onclick = "notifications()">
+        <br><br>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+</body>
+
+</html>
