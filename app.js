@@ -20,7 +20,6 @@ webpush.setVapidDetails('mailto:val@karpov.io', publicVapidKey, privateVapidKey)
 
 app.post('/faceAlert', (req, res) => {
   const subscription = req.body;
-  console.log("here")
   res.status(201).json({});
   const payload = JSON.stringify({ title: 'HealthDESK', body: "Stop Touching Your Face!", image: "https://images.homedepot-static.com/productImages/a94ca394-40a5-47ae-973c-8c76b9d4dcb3/svn/lynch-sign-stock-signs-stop-64_1000.jpg"});
 

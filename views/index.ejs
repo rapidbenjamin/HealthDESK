@@ -23,7 +23,7 @@
             /* width: 400px;
             height: 200px; */
             /* background-color: #666; */
-            border: 10px #222222 solid;
+            /* border: 10px #222222 solid; */
             /* padding-top: 0 !important;
             padding-left: 0 !important; */
         }
@@ -70,7 +70,7 @@
                         <button id="stop" class = "toggleBtn" onclick="stop()" hidden="true">Stop🛑</button>
                         <button id="pause" class = "toggleBtn" onclick="pauseVideo()" hidden="true">Pause⏸️</button>
                         <button id="reset" class = "toggleBtn" onclick="reset()" hidden="true">Reset🔄</button>
-                        <button id="modeBtn" class = "themeButton toggleBtn" onclick="changeMode()" style = "">Dark🌑</button>
+                        <button id="notify" class = "toggleBtn" onclick="changeNotify()" hidden="true">Notify🗣️</button>
                     </div>
 
 
@@ -113,16 +113,15 @@
                     </section>
                     <!-- stats -->
 
-
-
+                    <section class="mode-section stats">
+                      <h3>Customize🎨</h3>
+                      <button id="modeBtn" class = "themeButton toggleBtn" onclick="changeMode()" style = "">Dark🌑</button>
+                    </section>
 
                 </section>
                 <!-- portfolio -->
-
-
         	</div>
             <!-- .content-area -->
-
         </main>
 		<!-- .site-content -->
 

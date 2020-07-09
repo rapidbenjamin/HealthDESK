@@ -269,6 +269,7 @@ function detect() {
         if (area > 40000) {
           if(close) {
             numClose += 1;
+            run("/closeAlert")
             console.log("too close to the screen")
           }
         }
@@ -324,6 +325,7 @@ function detect() {
 
             if(slouch) {
               numSlouch += 1;
+              run("/postureAlert")
               console.log("stop slouching");
             }
           }
@@ -463,6 +465,8 @@ function start() {
     pauseBtn.hidden = false;
     var resetBtn = document.getElementById("reset");
     resetBtn.hidden = false;
+    var notifyBtn = document.getElementById("notify");
+    notifyBtn.hidden = false;
     var startBtn = document.getElementById("start");
     startBtn.hidden = true;
 
@@ -494,6 +498,9 @@ function stop(){
     stopped = !stopped;
 
     if(stopped) {
+
+      sendingNotifications = false;
+
       playing = false;
       video.pause()
       video.currentTime = 0;
@@ -508,6 +515,9 @@ function stop(){
       var resetBtn = document.getElementById("reset");
       resetBtn.hidden = true;
 
+      var notifyBtn = document.getElementById("notify");
+      notifyBtn.hidden = true;
+
       var stopBtn = document.getElementById("stop");
       stopBtn.innerHTML = "Start✅";
 
@@ -521,6 +531,9 @@ function stop(){
       clearInterval(timer);
 
     } else {
+
+      sendingNotifications = false;
+
       playing = true;
       var pauseBtn = document.getElementById("pause");
       pauseBtn.hidden = false;
@@ -529,6 +542,9 @@ function stop(){
 
       var resetBtn = document.getElementById("reset");
       resetBtn.hidden = false;
+
+      var notifyBtn = document.getElementById("notify");
+      notifyBtn.hidden = false;
 
       var stopBtn = document.getElementById("stop");
       stopBtn.innerHTML = "Stop🛑";
@@ -674,11 +690,12 @@ function updateStats(){
 function checkSendTimeBasedNotifications(){
     if (timeSinceUp >= 900 && timeSinceUp%300 === 0){
         timeSinceUp = 0;
-    //    send push notification telling user to get up
+        run("/upAlert")
     }
     if (timeSinceDrink >= 600 && timeSinceDrink%300 === 0){
         timeSinceDrink = 0;
     //    send push notification telling user to drink water
+      run("/waterAlert")
     }
 }
 
@@ -774,8 +791,28 @@ async function registerPush() {
 
 registerPush()
 
+var sendingNotifications = false;
+
+function changeNotify() {
+  sendingNotifications = !sendingNotifications;
+
+  if(sendingNotifications) {
+    var notify = document.getElementById("notify");
+    notify.style.backgroundColor = "#000000";
+    notify.style.color = "#FFFFFF";
+  } else {
+    var notify = document.getElementById("notify");
+    notify.style.backgroundColor = "#FFFFFF";
+    notify.style.color = "#000000";
+  }
+
+}
 
 async function run(url) {
+
+  if (!sendingNotifications) {
+    return;
+  }
 
   const subscription = await registration.pushManager.
     subscribe({
