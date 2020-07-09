@@ -110,6 +110,8 @@ function startVideo() {
         video.srcObject = stream;
         video.play();
         console.log("playing video")
+    }).error(function (error) {
+      alert("error");
     });
   }
 }
@@ -123,7 +125,7 @@ function pauseVideo() {
   if(playing) {
 
 
-    
+
 
     timer = setTimeout(detect, detectionInterval);
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
