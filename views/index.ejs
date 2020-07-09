@@ -17,12 +17,13 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Mono">
 
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/extra.css">
 
     <style>
-        #videoElement {
-            width: auto;
-            height: auto;
-            background-color: #666;
+        #video {
+            /* width: 400px;
+            height: 200px; */
+            /* background-color: #666; */
             border: 10px #222222 solid;
         }
     </style>
@@ -30,71 +31,77 @@
 
 </head>
 
-<body>
+<body id="body">
 
     <div id="page" class="hfeed site">
 		<main id="primary" class="site-content" role="main">
             <div class="content-area">
                 <section class="portfolio-flow theme-landing">
                     <header class="entry-header">
-                        <img title="HealthDesk" src="images/HealthDESKLogo.png" alt="HealthDesk Logo"/>
+                        <img title="HealthDesk" src="images/logo2.png" alt="HealthDesk Logo"/>
+
                         <p>proudly presents</p>
 
-                        <h1 class="entry-title">HealthDESK</h1>
+                        <h1 id="nameheader" class="entry-title">HealthDESK</h1>
                     </header>
 
                     <section class="about-section cam">
                         <div id="about">
-                            <p>HealthDESK is designed to improve people's physical health while sitting at their desk.</p>
+                            <p>HealthDESK was created to make sure people were maintaining healthy habits while working at their desks.
+                              Using your webcam and AI, 
+                              we can determine whether or not you are healthy at your desk and remind you to stay healthy while sitting.</p>
                         </div>
                     </section>
 
                     <div class="theme-action">
                         <a href="">
-							<img title="HealthDESK" src="images/HealthDESKLogo.png" alt="HealthDESK Logo"/>
-						</a>
+							               <img title="HealthDESK" src="images/logo2.png" alt="HealthDESK Logo"/>
+						             </a>
 
+                        <h3>HealthDESK<span class="theme-desc"> </span></h3>
 
-                        <button id = "start" onclick="start()">START</button>
-                        <button id="stop" onclick="stop()" hidden="true">STOP</button>
-
+                        <button id = "start" class = "toggleBtn" onclick="loadModels()">Start✅</button>
+                        <button id="stop" class = "toggleBtn" onclick="stop()" hidden="true">Stop🛑</button>
+                        <button id="pause" class = "toggleBtn" onclick="pauseVideo()" hidden="true">Pause⏸️</button>
+                        <button id="reset" class = "toggleBtn" onclick="resetStartTimer()" hidden="true">Reset🔄</button>
+                        <button id="modeBtn" class = "themeButton toggleBtn" onclick="changeMode()" style = "">Dark🌑</button>
                     </div>
-
-
 
 
                     <section id="togglesection" class="toggle-section toggle" hidden="true">
 
-<!--                        <h2>Toggle-Section</h2>-->
-                        <button id="facetouch" onclick="toggleFaceTouch()">Touch Face</button>
-                        <button id="slouch" onclick="toggleSlouch()">Slouch</button>
-                        <button id="getup" onclick="toggleGetUp()">Get Up</button>
-                        <button id="close" onclick="toggleClose()" class="bx bx-show">Close</button>
-                        <button id="water" onclick="toggleWater()">Water</button>
+                       <h3>Options🤖</h3>
+                       <h4>These are events that the AI is tracking - click the buttons to toggle the options ON/OFF</h4>
+                       <br>
+                        <button id="facetouch" class = "toggleBtn2" onclick="toggleFaceTouch()">Touched Face😀</button>
+                        <button id="slouch" class = "toggleBtn2" onclick="toggleSlouch()">Bad Posture🪑</button>
+                        <button id="getup" class = "toggleBtn2" onclick="toggleGetUp()">Got Up🧍</button>
+                        <button id="close" class = "toggleBtn2" onclick="toggleClose()" class="bx bx-show">Got Too Close👀</button>
+                        <button id="water" class = "toggleBtn2" onclick="toggleWater()">Drank Water🥤</button>
 
                     </section>
 
                     <section id="camerasection" class="camera-section cam" hidden="true">
 
-                        <div>
-                            <video autoplay="true" id="videoElement"></video>
-                        </div>
+                          <video id="video" width="800" height="400"></video>
+                          <br>
+                          <canvas id = "canvas" width = "800" height = "400"></canvas>
 
                     </section>
 
                     <section id="statssection" class="stats-section stats" hidden="true">
 
-<!--                        <h2>Statistics📊</h2>-->
-                        <h3 id="faceTouchStat">Number of face touches: 0</h3>
-                        <h3 id="slouchStat">Times you slouched: 0</h3>
-                        <h3 id="closeStat">Times you got too close to the monitor: 0</h3>
-                        <h3 id="getUpStat">Time since you got up: 0</h3>
-                        <h3 id="waterStat">Time since you drank water: 0</h3>
-                        <br>
-                        <h3 id="startStat">Time since start: 0</h3>
+                       <h3>Stats📊</h3>
+                        <h4 id="faceTouchStat">Touched Your Face: 0</h4>
+                        <h4 id="slouchStat">Slouched: 0</h4>
+                        <h4 id="closeStat">Since You Got Up: 0</h4>
+                        <h4 id="getUpStat">Got Close to the Screen: 0</h4>
+                        <h4 id="waterStat">Since you drank water: 0</h4>
+                        <h4 id="startStat">Since Start: 0</h4>
 
                     </section>
                     <!-- stats -->
+
 
 
 
@@ -114,7 +121,7 @@
 
             <!-- .site-info -->
             <div class="site-info">
-                <div class="textwidget">
+                <div class="textwidget" id="footer">
                 	💻developed by Ashay Parikh, Abhi Nayak, Skyler Gao</a>
                 </div>
             </div>
@@ -123,10 +130,17 @@
         </footer>
         <!-- .site-footer -->
 
+
     </div>
     <!-- .site -->
 
 	<!-- SCRIPTS -->
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <script src="js/handtrack.min.js"></script>
+  <script src="js/opencv.js" type="text/javascript"></script>
+  <script src="https://docs.opencv.org/master/utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
     <script src="/js/jquery-2.2.4.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/extra.js"></script>
