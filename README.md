@@ -10,7 +10,7 @@ In order to help prevent the adverse effects of office work to people’s health
 This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020. 
 The project is applying under Best Overall, Most Practical/Scalable, Best Impact, Best Original, and Best Design.
 
-## Link
+## Links
 
 * [Check out the site in action](https://blooming-chamber-19753.herokuapp.com/)
 * [Watch the demonstration video]()
