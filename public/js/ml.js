@@ -7,6 +7,8 @@ const modelParams = {
 
 var handModel;
 
+var faceNotDetected = 0;
+
 let faceCascade = new cv.CascadeClassifier();  // initialize classifier
 
 let utils = new Utils('errorMessage'); //use utils class
@@ -17,6 +19,7 @@ let detectionInterval = 500
 
 var loaded1 = false;
 var loaded2 = false;
+var loaded3 = false;
 
 // use createFileFromUrl to "pre-build" the xml
 utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
@@ -24,6 +27,22 @@ utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
     console.log("loaded cascade")
     loaded1 = true
 });
+
+var net;
+
+async function loadPoseNet() {
+   net = await posenet.load({
+    architecture: 'MobileNetV1',
+    outputStride: 16,
+    inputResolution: { width: 640, height: 480 },
+    multiplier: 0.75
+  }).then(net => {
+    loaded3 = true;
+    return net;
+  });
+}
+
+loadPoseNet();
 
 function loadHandTrack() {
   // Load the model.
@@ -48,7 +67,7 @@ if (iOS) { //ios device
 
 function startVideo() {
 
-  if(loaded1 == false || loaded2 == false) {
+  if(loaded1 == false || loaded2 == false || loaded3 === false) {
     playing = false
     return;
   }
@@ -122,7 +141,73 @@ var last = false
 
 var times = 0;
 
+var drinkingWater = 0;
+var slouching = 0;
+
+
+function calculateAngle(points) {
+
+  var a = points[0];
+  a.x = 500 - a.x;
+  a.y = 300 - a.y;
+  var b = points[1];
+  b.x = 500 - b.x;
+  b.y = 300 - b.y;
+  var c = points[2];
+  c.x = 500 - c.x;
+  c.y = 300 - c.y;
+
+  var a_vector = {x: a.x - b.x, y: a.y - b.y};
+  var b_vector = {x: c.x - b.x, y: c.y - b.y};
+
+  var dotProduct = a_vector.x * b_vector.x + a_vector.y * b_vector.y;
+  var a_mag = Math.sqrt(Math.pow(a_vector.x, 2) + Math.pow(a_vector.y, 2));
+  var b_mag = Math.sqrt(Math.pow(b_vector.x, 2) + Math.pow(b_vector.y, 2));
+
+  var angle = Math.acos(dotProduct / (a_mag * b_mag));
+
+  return angle * (180 / Math.PI);
+
+}
+
+function calculateBelow(points) {
+  var a = points[0];
+  a.x = 500 - a.x;
+  a.y = 300 - a.y;
+  var b = points[1];
+  b.x = 500 - b.x;
+  b.y = 300 - b.y;
+  var c = points[2];
+  c.x = 500 - c.x;
+  c.y = 300 - c.y;
+  
+  return c.y > b.y;
+}
+
+function detectSlouching(leftShoulder, rightShoulder, nose) {
+  leftShoulder.x = 500 - leftShoulder.x;
+  leftShoulder.y = 300 - leftShoulder.y;
+  rightShoulder.x = 500 - rightShoulder.x;
+  rightShoulder.y = 300 - rightShoulder.y;
+  nose.x = 500 - nose.x;
+  nose.y = 300 - nose.y;
+
+  midpoint = {x: (leftShoulder.x + rightShoulder.x) / 2, y: (leftShoulder.y + rightShoulder.y) / 2};
+
+  var distance = Math.sqrt(Math.pow(midpoint.x - nose.x, 2) + Math.pow(midpoint.y - nose.y, 2));
+  console.log(distance);
+  return distance <= 40;
+
+}
+
+
 function detect() {
+
+
+  if (!playing) {
+    return;
+  }
+
     var video = document.getElementById('video');
     handModel.detect(video).then(predictions => {
         var hands = []
@@ -133,26 +218,79 @@ function detect() {
 
         var intersecting = false
 
-        if(face != []) {
+        if(face.length != 0) {
           for(var i = 0; i < hands.length; i++) {
             intersecting = intersecting || rectanglesIntersect(face[0], face[1], face[2], face[3], hands[i][0], hands[i][1], hands[i][2], hands[i][3])
           }
-        }
-
-
-        if(intersecting) {
-          console.log("touching")
+          faceNotDetected = 0;
         } else {
-          console.log("safe")
+          faceNotDetected += 1;
         }
+
+        if (faceNotDetected === 8 && drinkingWater === 0) {
+          alert("got up!")
+        }
+
+        //figure out area
+
+        area = face[2] * face[3];
+
+        if (area > 6500) {
+          console.log("too close to the screen")
+        }
+
+        //try posenet
+
+        var imageElement = document.getElementById('video');
+
+        net.estimateSinglePose(imageElement, {
+          flipHorizontal: true
+        }).then(pose => {
+
+          var keypoints = pose.keypoints;
+          var leftArm = [keypoints[5].position, keypoints[7].position, keypoints[9].position] //shoulder, elbow, wrist
+          var rightArm = [keypoints[6].position, keypoints[8].position, keypoints[10].position]
+
+          var leftShoulder = keypoints[5].position;
+          var rightShoulder = keypoints[6].position;
+          var nose = keypoints[0].position;
+
+          if(detectSlouching(leftShoulder, rightShoulder, nose)) {
+            slouching += 1;
+          } else {
+            slouching = 0;
+          }
+
+          if (slouching >= 3) {
+            console.log("stop slouching");
+          }
+
+
+          if(calculateBelow(rightArm) && calculateAngle(rightArm) <= 18) {
+            //make sure that elbow is below arms
+            drinkingWater += 1;
+          } else if (calculateBelow(leftArm) && calculateAngle(leftArm) <= 18) {
+            drinkingWater += 1;
+          } else {
+            drinkingWater = 0;
+          }
+        })
+
+        if(drinkingWater >= 2) {
+          console.log("drinking Water")
+        }
+
+        // if(intersecting) {
+        //   console.log("touching")
+        // } else {
+        //   console.log("safe")
+        // }
 
         //send notification for not touching face
-        if(last == false && intersecting == true) {
+        if(last == false && intersecting == true && drinkingWater == 0) {
           times += 1;
 
           console.log("touched face")
-
-
         }
 
         last = intersecting

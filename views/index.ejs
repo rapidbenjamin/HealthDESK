@@ -9,7 +9,7 @@
     <meta name="keywords" content="">
     <meta name="author" content="Ashay Parikh, Abhi Nayak, Skyler Gao">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <link rel="icon" type="image/png" href="images/HealthDESKLogo.png">
 
     <title>HealthDESK</title>
 
@@ -17,6 +17,17 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Mono">
 
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <style>
+        #videoElement {
+            width: auto;
+            height: auto;
+            background-color: #666;
+            border: 10px #222222 solid;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -26,56 +37,69 @@
             <div class="content-area">
                 <section class="portfolio-flow theme-landing">
                     <header class="entry-header">
-							<img title="HealthDesk" src="images/HealthDESKLogo.png" alt="HealthDesk Logo"/>
-
+                        <img title="HealthDesk" src="images/HealthDESKLogo.png" alt="HealthDesk Logo"/>
                         <p>proudly presents</p>
 
                         <h1 class="entry-title">HealthDESK</h1>
                     </header>
+
+                    <section class="about-section cam">
+                        <div id="about">
+                            <p>HealthDESK is designed to improve people's physical health while sitting at their desk.</p>
+                        </div>
+                    </section>
 
                     <div class="theme-action">
                         <a href="">
 							<img title="HealthDESK" src="images/HealthDESKLogo.png" alt="HealthDESK Logo"/>
 						</a>
 
-                        <h3>HealthDESK<span class="theme-desc"> </span></h3>
-                        <button id = "start">START</button>
+
+                        <button id = "start" onclick="start()">START</button>
+                        <button id="stop" onclick="stop()" hidden="true">STOP</button>
 
                     </div>
 
 
-                    <section class="toggle-section toggle">
 
 
-                        <h2>Toggle-Section</h2>
+                    <section id="togglesection" class="toggle-section toggle" hidden="true">
+
+<!--                        <h2>Toggle-Section</h2>-->
+                        <button id="facetouch" onclick="toggleFaceTouch()">Touch Face</button>
+                        <button id="slouch" onclick="toggleSlouch()">Slouch</button>
+                        <button id="getup" onclick="toggleGetUp()">Get Up</button>
+                        <button id="close" onclick="toggleClose()" class="bx bx-show">Close</button>
+                        <button id="water" onclick="toggleWater()">Water</button>
 
                     </section>
 
-                    <section class="camera-section cam">
+                    <section id="camerasection" class="camera-section cam" hidden="true">
 
-
-                        <h2>Camera-Section📷</h2>
+                        <div>
+                            <video autoplay="true" id="videoElement"></video>
+                        </div>
 
                     </section>
 
+                    <section id="statssection" class="stats-section stats" hidden="true">
 
-
-
-                    <section class="home-section stats">
-
-
-                        <h2>Statistics📊</h2>
+<!--                        <h2>Statistics📊</h2>-->
+                        <h3 id="faceTouchStat">Number of face touches: 0</h3>
+                        <h3 id="slouchStat">Times you slouched: 0</h3>
+                        <h3 id="closeStat">Times you got too close to the monitor: 0</h3>
+                        <h3 id="getUpStat">Time since you got up: 0</h3>
+                        <h3 id="waterStat">Time since you drank water: 0</h3>
+                        <br>
+                        <h3 id="startStat">Time since start: 0</h3>
 
                     </section>
                     <!-- stats -->
 
 
+
                 </section>
                 <!-- portfolio -->
-
-
-
-
 
 
         	</div>
@@ -83,8 +107,6 @@
 
         </main>
 		<!-- .site-content -->
-
-
 
 
         <!-- .site-footer -->
@@ -101,16 +123,13 @@
         </footer>
         <!-- .site-footer -->
 
-
-
-
-	</div>
+    </div>
     <!-- .site -->
-
 
 	<!-- SCRIPTS -->
     <script src="/js/jquery-2.2.4.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/extra.js"></script>
 
 </body>
 
