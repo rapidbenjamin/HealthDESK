@@ -84,7 +84,19 @@ function startVideo() {
   const video = document.getElementById('video')
 
   video.style.visibility = "visible";
-  video.style.display = "inline"
+  video.style.display = "inline";
+
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+      navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}}).then(function (stream) {
+        //video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
+        video.play();
+        console.log("playing video")
+    });
+  } else {
+    alert("couldn't start camera, please reload");
+  }
 
   video.addEventListener('playing', () => {
     timer = setTimeout(detect, detectionInterval);
@@ -102,18 +114,6 @@ function startVideo() {
 // .catch(function(err) {
 //   alert(err.name + ": " + err.message);
 // });
-
-  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    // Not adding `{ audio: true }` since we only want video now
-      navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}}).then(function (stream) {
-        //video.src = window.URL.createObjectURL(stream);
-        video.srcObject = stream;
-        video.play();
-        console.log("playing video")
-    }).error(function (error) {
-      alert("error");
-    });
-  }
 }
 
 var playing = false;
@@ -122,10 +122,14 @@ function pauseVideo() {
   playing = !playing;
   const video = document.getElementById('video')
 
+  console.log(playing)
+
   if(playing) {
 
-
-
+    console.log("playing")
+    var pauseBtn = document.getElementById("pause");
+    pauseBtn.style.backgroundColor = "#FFFFFF";
+    pauseBtn.style.color = "#000000";
 
     timer = setTimeout(detect, detectionInterval);
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -137,13 +141,17 @@ function pauseVideo() {
           console.log("playing video")
       });
     }
-    document.getElementById("pause").value = "Pause Video";
   } else {
+    console.log("paused")
+    var pauseBtn = document.getElementById("pause");
+    pauseBtn.style.backgroundColor = "#000000";
+    pauseBtn.style.color = "#FFFFFF";
+
     video.pause()
     video.currentTime = 0;
     video.srcObject.getTracks()[0].stop();
     clearTimeout(timer);
-    document.getElementById("pause").value = "Play Video";
+    // document.getElementById("pause").value = "Play Video";
   }
 
 }
@@ -258,7 +266,7 @@ function detect() {
         //DETECT IF YOU ARE TOO CLOSE
         area = face[2] * face[3];
         // console.log("area: " + area);
-        if (area > 35000) {
+        if (area > 40000) {
           if(close) {
             numClose += 1;
             console.log("too close to the screen")
@@ -284,8 +292,8 @@ function detect() {
           var rightShoulder = keypoints[6].position;
           var nose = keypoints[0].position;
 
-          console.log(rightArm[2].y);
-          console.log(leftArm[2].y);
+          //console.log(rightArm[2].y);
+          //console.log(leftArm[2].y);
 
           //DETECT LAST TIME DRANK WATER
           if(rightArm[2].y <= 290 && calculateBelow(rightArm) && calculateAngle(rightArm) <= 18) {
@@ -330,6 +338,7 @@ function detect() {
           if(faceTouch) {
             numFaceTouches += 1;
             console.log("touched face")
+            run("/faceAlert")
           }
         }
         last = intersecting
@@ -432,11 +441,11 @@ function setCookie(cname, cvalue, exdays) {
 
 //rest of the code -----------------------------------------------------------------------
 var video = document.querySelector("#video");
-var faceTouch = true;
-var slouch = true;
-var getUp = true;
-var close = true;
-var water = true;
+var faceTouch = false;
+var slouch = false;
+var getUp = false;
+var close = false;
+var water = false;
 
 var numFaceTouches;
 var numSlouch;
@@ -478,23 +487,78 @@ function start() {
     startVideo();
 }
 
+var stopped = false;
+
 function stop(){
-    var stopBtn = document.getElementById("stop");
-    stopBtn.hidden = true;
-    var startBtn = document.getElementById("start");
-    startBtn.hidden = false;
-    startBtn.innerHTML = "Start✅";
 
-    var toggleSection = document.getElementById("togglesection");
-    toggleSection.hidden = true;
-    var cameraSection = document.getElementById("camerasection");
-    cameraSection.hidden = true;
-    var statsSection = document.getElementById("statssection");
-    statsSection.hidden = true;
+    stopped = !stopped;
 
-    clearInterval(timer);
+    if(stopped) {
+      playing = false;
+      video.pause()
+      video.currentTime = 0;
+      video.srcObject.getTracks()[0].stop();
+      clearTimeout(timer);
 
-    stopVideo();
+      var pauseBtn = document.getElementById("pause");
+      pauseBtn.hidden = true;
+      pauseBtn.style.backgroundColor = "#FFFFFF";
+      pauseBtn.style.color = "#000000";
+
+      var resetBtn = document.getElementById("reset");
+      resetBtn.hidden = true;
+
+      var stopBtn = document.getElementById("stop");
+      stopBtn.innerHTML = "Start✅";
+
+      var toggleSection = document.getElementById("togglesection");
+      toggleSection.hidden = true;
+      var cameraSection = document.getElementById("camerasection");
+      cameraSection.hidden = true;
+      var statsSection = document.getElementById("statssection");
+      statsSection.hidden = true;
+
+      clearInterval(timer);
+
+    } else {
+      playing = true;
+      var pauseBtn = document.getElementById("pause");
+      pauseBtn.hidden = false;
+      pauseBtn.style.backgroundColor = "#FFFFFF";
+      pauseBtn.style.color = "#000000";
+
+      var resetBtn = document.getElementById("reset");
+      resetBtn.hidden = false;
+
+      var stopBtn = document.getElementById("stop");
+      stopBtn.innerHTML = "Stop🛑";
+
+      resetAll();
+
+      var toggleSection = document.getElementById("togglesection");
+      toggleSection.hidden = false;
+      var cameraSection = document.getElementById("camerasection");
+      cameraSection.hidden = false;
+      var statsSection = document.getElementById("statssection");
+      statsSection.hidden = false;
+
+      timer = setTimeout(detect, detectionInterval);
+      if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Not adding `{ audio: true }` since we only want video now
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            //video.src = window.URL.createObjectURL(stream);
+            video.srcObject = stream;
+            video.play();
+            console.log("playing video")
+        });
+      }
+
+    }
+
+
+
+
+
 }
 
 // function startVideo() {
@@ -526,60 +590,60 @@ function toggleFaceTouch(){
     faceTouch = !faceTouch;
     if(faceTouch) {
       var name = document.getElementById("facetouch");
-      name.style.backgroundColor = "#FFFFFF";
-      name.style.color = "#000000";
-    } else {
-      var name = document.getElementById("facetouch");
       name.style.backgroundColor = "#000000";
       name.style.color = "#FFFFFF";
+    } else {
+      var name = document.getElementById("facetouch");
+      name.style.backgroundColor = "#FFFFFF";
+      name.style.color = "#000000";
     }
 }
 function toggleSlouch() {
     slouch = !slouch
     if(slouch) {
       var name = document.getElementById("slouch");
-      name.style.backgroundColor = "#FFFFFF";
-      name.style.color = "#000000";
-    } else {
-      var name = document.getElementById("slouch");
       name.style.backgroundColor = "#000000";
       name.style.color = "#FFFFFF";
+    } else {
+      var name = document.getElementById("slouch");
+      name.style.backgroundColor = "#FFFFFF";
+      name.style.color = "#000000";
     }
 }
 function toggleGetUp() {
     getUp = !getUp
     if(getUp) {
       var name = document.getElementById("getup");
-      name.style.backgroundColor = "#FFFFFF";
-      name.style.color = "#000000";
-    } else {
-      var name = document.getElementById("getup");
       name.style.backgroundColor = "#000000";
       name.style.color = "#FFFFFF";
+    } else {
+      var name = document.getElementById("getup");
+      name.style.backgroundColor = "#FFFFFF";
+      name.style.color = "#000000";
     }
 }
 function toggleClose() {
     close = !close
     if(close) {
       var name = document.getElementById("close");
-      name.style.backgroundColor = "#FFFFFF";
-      name.style.color = "#000000";
-    } else {
-      var name = document.getElementById("close");
       name.style.backgroundColor = "#000000";
       name.style.color = "#FFFFFF";
+    } else {
+      var name = document.getElementById("close");
+      name.style.backgroundColor = "#FFFFFF";
+      name.style.color = "#000000";
     }
 }
 function toggleWater() {
     water = !water
     if(water) {
       var name = document.getElementById("water");
-      name.style.backgroundColor = "#FFFFFF";
-      name.style.color = "#000000";
-    } else {
-      var name = document.getElementById("water");
       name.style.backgroundColor = "#000000";
       name.style.color = "#FFFFFF";
+    } else {
+      var name = document.getElementById("water");
+      name.style.backgroundColor = "#FFFFFF";
+      name.style.color = "#000000";
     }
 }
 
@@ -628,6 +692,22 @@ function resetStartTimer() {
     timeSinceStart = 0;
 }
 
+function resetAll() {
+  numFaceTouches = 0;
+  numSlouch = 0;
+  numClose = 0
+  timeSinceStart = 0;
+  timeSinceDrink = 0;
+  timeSinceUp = 0;
+
+  faceTouch = false;
+  slouch = false;
+  getUp = false;
+  close = false;
+  water = false;
+  updateStats();
+}
+
 var mode = 0;
 
 function changeMode() {
@@ -670,4 +750,101 @@ function darkMode() {
     footer.style.color = "#222222"
     var webcam = document.getElementById("video");
     webcam.style.borderColor = "#222222"
+}
+
+
+//code for sending a push notification
+
+// Hard-coded, replace with your public key
+const publicVapidKey = 'BDm5c3wc5O_dCtsQJg2qzZ8FNXYNHQrvUwO_dabEMYOlt_X_bOOX8ejxY0hczQ-bL4MaWW4CNQ0-a6Su2VOMrdk';
+
+var registration;
+
+async function registerPush() {
+
+    if ('serviceWorker' in navigator) {
+
+        console.log('Registering service worker');
+        registration = await navigator.serviceWorker.register('/js/worker.js');
+        console.log('Registered service worker');
+    } else {
+        alert("improper device!")
+    }
+}
+
+registerPush()
+
+
+async function run(url) {
+
+  const subscription = await registration.pushManager.
+    subscribe({
+      userVisibleOnly: true,
+      // The `urlBase64ToUint8Array()` function is the same as in
+      // https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+
+  console.log(subscription)
+  console.log('Registered push');
+
+  var sub_json = JSON.stringify(subscription)
+
+  console.log(sub_json)
+
+  console.log('Sending push');
+  await fetch(url, {
+    method: 'POST',
+    body: sub_json,
+    headers: {
+      'content-type': 'application/json'
+    }
+  });
+  console.log('Sent push');
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+//keeping track
+
+//cases: haven't set, new day
+
+if(getCookie("last_time") == "") {
+  setCookie("last_time", "0");
 }

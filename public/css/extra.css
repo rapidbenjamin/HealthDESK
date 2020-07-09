@@ -24,3 +24,7 @@ canvas {
   display: none;
   visibility: hidden;
 }
+
+.info {
+  font-size: 15px !important;
+}

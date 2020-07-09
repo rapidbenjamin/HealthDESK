@@ -2,7 +2,6 @@
 
 <html lang="en-US">
 
-<!-- Mirrored from themes.pixelwars.org/empathy/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jul 2020 03:29:04 GMT -->
 <head>
     <meta charset="utf-8">
     <meta name="description" content="HealthDESK">
@@ -25,6 +24,8 @@
             height: 200px; */
             /* background-color: #666; */
             border: 10px #222222 solid;
+            /* padding-top: 0 !important;
+            padding-left: 0 !important; */
         }
     </style>
 
@@ -47,9 +48,14 @@
 
                     <section class="about-section cam">
                         <div id="about">
-                            <p>HealthDESK was created to make sure people were maintaining healthy habits while working at their desks.
-                              Using your webcam and AI, 
-                              we can determine whether or not you are healthy at your desk and remind you to stay healthy while sitting.</p>
+
+                            <p class = "info">
+
+                              We are three young students🧒 that want to make sure that you are maintaining healthy🍎 habits while working at
+                              your desk🪑.
+                              Using your webcam📷 and AI🧠(Artificial Intelligence),
+                              we can determine if you aren't staying healthy🚫 and notify you🗣️.
+                            </p>
                         </div>
                     </section>
 
@@ -63,7 +69,7 @@
                         <button id = "start" class = "toggleBtn" onclick="loadModels()">Start✅</button>
                         <button id="stop" class = "toggleBtn" onclick="stop()" hidden="true">Stop🛑</button>
                         <button id="pause" class = "toggleBtn" onclick="pauseVideo()" hidden="true">Pause⏸️</button>
-                        <button id="reset" class = "toggleBtn" onclick="resetStartTimer()" hidden="true">Reset🔄</button>
+                        <button id="reset" class = "toggleBtn" onclick="reset()" hidden="true">Reset🔄</button>
                         <button id="modeBtn" class = "themeButton toggleBtn" onclick="changeMode()" style = "">Dark🌑</button>
                     </div>
 
@@ -71,7 +77,12 @@
                     <section id="togglesection" class="toggle-section toggle" hidden="true">
 
                        <h3>Options🤖</h3>
-                       <h4>These are events that the AI is tracking - click the buttons to toggle the options ON/OFF</h4>
+                       <h4>These are events that the AI is tracking - click the buttons to toggle the options ON/OFF
+                         <br>
+                         White ➡️ OFF
+                         <br>
+                         Black ➡️ ON
+                       </h4>
                        <br>
                         <button id="facetouch" class = "toggleBtn2" onclick="toggleFaceTouch()">Touched Face😀</button>
                         <button id="slouch" class = "toggleBtn2" onclick="toggleSlouch()">Bad Posture🪑</button>
@@ -147,5 +158,4 @@
 
 </body>
 
-<!-- Mirrored from themes.pixelwars.org/empathy/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jul 2020 03:29:08 GMT -->
 </html>
