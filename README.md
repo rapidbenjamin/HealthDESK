@@ -8,13 +8,18 @@ In order to help prevent the adverse effects of office work to people’s health
 ### Hackathon
 
 This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020. 
-The project is applying under Best Overall, Most Practical/Scalable, Best Impact, Best Original, and Best Design.
+The project is applying:
+* Best Overall - This project encompasses all of the criteria (Impact, Design, Practicality) of an overall winning project
+* Most Practical/Scalable - This project has the potential to grow in size, users, and resources while maintining the same functionality
+* Best Impact - This project has the potential to impact millions of people who sit at desks, such as office workers, students, and children
+* Best Original - This project has a "one of a kind" goal and implementation 
+* Best Design - This project utilizes a simple yet powerful design with light/dark mode, responsiveness, and emojis!
 
 ## Links
 
 * [Check out the site in action](https://blooming-chamber-19753.herokuapp.com/)
-* [Watch the demonstration video]()
-* [See the project submission on Devpost]()
+* [Watch the demonstration video](https://youtu.be/EqEYL4vCNPE)
+* [See the project submission on Devpost](https://devpost.com/software/healthdesk-mfj2hr)
 
 ## Technologies
 
