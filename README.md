@@ -44,6 +44,6 @@ We encourage people to contribute to our website and suggest changes. Please cre
 For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-[GNU General Public License v3.0]()
+[GNU General Public License v3.0](https://github.com/ashayp22/HackTheLib/blob/master/LICENSE)
 
 
