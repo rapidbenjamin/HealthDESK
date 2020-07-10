@@ -19,7 +19,7 @@ The project is applying:
 
 * [Check out the site in action](https://blooming-chamber-19753.herokuapp.com/)
 * [Watch the demonstration video](https://youtu.be/EqEYL4vCNPE)
-* [See the project submission on Devpost]()
+* [See the project submission on Devpost](https://devpost.com/software/healthdesk-mfj2hr)
 
 ## Technologies
 
