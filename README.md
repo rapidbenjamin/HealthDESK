@@ -1,5 +1,4 @@
-# HealthDESK
-## Using AI to ensure you are staying healthy at your desk
+# HealthDESK - Using AI to ensure you are staying healthy at your desk
 
 #### Greetings judges, thank you for judging this event and please feel free to go through our README or code for more details!
 
