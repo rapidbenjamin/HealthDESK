@@ -32,6 +32,12 @@ The project is applying for:
 * Express
 * Heroku
 
+## How We Built It
+
+Using TensorFlow and OpenCV, we created an AI algorithm that can detect unhealthy habits that occur while sitting at your desk.  The AI implements a variety of Computer Vision algorithms, such as Convolutional Neural Networks called ResNet-50 and MobileNet V2, along with a Cascade Classifier. After receiving bounding boxes and landmarks from these Computer Vision algorithms, we used mathematical computations to determine if a user is drinking water, stood up, touched their face, leaned in, and has bad posture.
+
+In order to create the front end, we used JavaScript, HTML5, and CSS. We used responsive CSS and custom JavaScript to create a simple yet powerful UI/UX design. We also implemented rapid push notifications that notifies users whenever they are being unhealthy, allowing users to keep the website running in the background.
+
 ## Authors
 
 * [Ashay Parikh](https://www.linkedin.com/in/ashay-parikh-a0621619a/)
