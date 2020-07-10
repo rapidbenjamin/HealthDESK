@@ -765,6 +765,7 @@ function lightMode(){
 }
 
 function darkMode() {
+
     var modeBtn = document.getElementById("modeBtn");
     modeBtn.innerHTML = 'Dark🌑';
 
