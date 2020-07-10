@@ -1,4 +1,5 @@
-# HealthDESK - Using AI to ensure you are staying healthy at your desk
+# HealthDESK
+## Using AI to ensure you are staying healthy at your desk
 
 ### Project Details
 
