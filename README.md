@@ -18,7 +18,7 @@ The project is applying:
 ## Links
 
 * [Check out the site in action](https://blooming-chamber-19753.herokuapp.com/)
-* [Watch the demonstration video]()
+* [Watch the demonstration video](https://youtu.be/EqEYL4vCNPE)
 * [See the project submission on Devpost]()
 
 ## Technologies
