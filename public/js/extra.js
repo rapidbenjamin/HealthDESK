@@ -477,6 +477,9 @@ function start() {
     var statsSection = document.getElementById("statssection");
     statsSection.hidden = false;
 
+    var customize = document.getElementById("customize");
+    customize.hidden = false;
+
     numFaceTouches = 0;
     numSlouch = 0;
     numClose = 0
@@ -518,6 +521,9 @@ function stop(){
       var notifyBtn = document.getElementById("notify");
       notifyBtn.hidden = true;
 
+      var customize = document.getElementById("customize");
+      customize.hidden = true;
+
       var stopBtn = document.getElementById("stop");
       stopBtn.innerHTML = "Start✅";
 
@@ -556,7 +562,12 @@ function stop(){
       var cameraSection = document.getElementById("camerasection");
       cameraSection.hidden = false;
       var statsSection = document.getElementById("statssection");
-      statsSection.hidden = false;
+      statsSection.hidden = false
+
+      var customize = document.getElementById("customize");
+      customize.hidden = false;
+
+
 
       timer = setTimeout(detect, detectionInterval);
       if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
