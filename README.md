@@ -44,7 +44,6 @@ In order to create the front end, we used JavaScript, HTML5, and CSS. We used re
 * [Abhi Nayak](https://www.linkedin.com/in/abhi-nayak-7a9a531ab/)
 * [Skyler Gao](https://www.linkedin.com/in/skyler-gao-9683b01b2/)
 
-
 ## Contributing
 We encourage people to contribute to our website and suggest changes. Please create a pull request and email [us](mailto:ashayp22@gmail.com) with your suggestion. 
 
