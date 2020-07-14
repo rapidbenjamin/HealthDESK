@@ -6,7 +6,7 @@ In order to help prevent the adverse effects of office work to people’s health
 
 ### Hackathon
 
-This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020 and won **Most Scalable.**
+This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020 and won **"Most Scalable"** out of 205 participants.
 
 ## Links
 
