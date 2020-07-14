@@ -1,20 +1,12 @@
 # HealthDESK - Using AI to ensure you are staying healthy at your desk
 
-#### Greetings judges, thank you for judging this event and please feel free to go through our README or code for more details!
-
 ### Project Details
 
 In order to help prevent the adverse effects of office work to people’s health, we created HealthDESK, a website that uses AI technologies and webcam data to determine and notify you when you have poor posture, and also, remind you to maintain healthy habits while sitting at your desk.
 
 ### Hackathon
 
-This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020. 
-The project is applying for:
-* Best Overall - This project encompasses all of the criteria (Impact, Design, Practicality) of an overall winning project.
-* Most Practical/Scalable - This project has the potential to grow in size, users, and resources while maintining the same functionality.
-* Best Impact - This project has the potential to impact millions of people who sit at desks, such as office workers, students, and children.
-* Best Original - This project has a "one of a kind" goal and implementation - this is the first time that AI is used to monitor healthy desk habits.
-* Best Design - This project utilizes a simple yet powerful design with light/dark mode, responsiveness, and emojis!
+This project was submitted to [HackTheLib](http://www.hackthelib.com/) in July 2020 and won **Most Scalable.**
 
 ## Links
 
