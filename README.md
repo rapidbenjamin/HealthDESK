@@ -1,5 +1,7 @@
 # HealthDESK - Using AI to ensure you are staying healthy at your desk
 
+![Preview](https://ashayp.com/images/projects/healthdesk.jpg)
+
 ### Project Details
 
 In order to help prevent the adverse effects of office work to people’s health, we created HealthDESK, a website that uses AI technologies and webcam data to determine and notify you when you have poor posture, and also, remind you to maintain healthy habits while sitting at your desk.
